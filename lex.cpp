@@ -27,8 +27,8 @@ string Scanner:: TD[] = { "NULL",
 
 vector <Ident> TID;
 
-int put (const string & buf) {
-    vector <Ident> :: iterator k;
+int put(const string & buf){
+    vector<Ident>::iterator k;
 
     k = find(TID.begin(), TID.end(), buf);
 
@@ -89,7 +89,7 @@ Lex Scanner::get_lex(){
                 else { 
                     buf.push_back(c);
                     if((j = look( buf, TD, TDlen))){
-                        return Lex((type_of_lex) (j + (int) LEX_EXIT), j, buf);
+                        return Lex((type_of_lex) (j - 1 + (int) LEX_EXIT), j, buf);
                     }
 
                     else throw c;
@@ -133,12 +133,12 @@ Lex Scanner::get_lex(){
                 if(c == '='){
                     buf.push_back(c);
                     j = look(buf, TD, TDlen);
-                    return Lex((type_of_lex) (j + (int) LEX_EXIT), j, buf );
+                    return Lex((type_of_lex) (j - 1 + (int) LEX_EXIT), j, buf );
                 }
                 else {
                     ungetc(c, fp);
                     j = look (buf, TD, TDlen);
-                    return Lex ((type_of_lex) ( j + (int) LEX_EXIT), j, buf ); 
+                    return Lex ((type_of_lex) ( j - 1 + (int) LEX_EXIT), j, buf ); 
                 }
                 break;
             case NEQ:

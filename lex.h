@@ -12,7 +12,7 @@
 
 using namespace std;
 
-enum type_of_lex {
+enum type_of_lex{
     LEX_NULL,       //0 NULL
     LEX_AND,        //1 AND
     LEX_SELECT,     //2 SELECT
@@ -49,15 +49,20 @@ enum type_of_lex {
     LEX_LEQ,        //33 <=
     LEX_NEQ,        //34 !=
     LEX_GEQ,        //35 >=
-    LEX_NUM,        //36 число
-    LEX_ID,         //37 идентификатор
-    LEX_LETTER,     //38 сообщение в кавычках
+    LEX_MOD,        //36 %
+    LEX_NUM,        //37 число
+    LEX_ID,         //38 идентификатор
+    LEX_LETTER,     //39 сообщение в кавычках
+    POLIZ_LABEL,    //40 метка
+    POLIZ_ADDRESS,  //41 адресс
+    POLIZ_GO,       //42 переход по метке
+    POLIZ_FGO,      //43 переход по лжи
+    POLIZ_SENTENCE, //44 конец SQL-предложения
 };
 
-class Lex {
+class Lex{
     type_of_lex t_lex;
     int v_lex;
-    string v_string;
     string name_of_lex;
 public:
     Lex(type_of_lex t = LEX_NULL, int v = 0, string n = ""){
@@ -72,13 +77,12 @@ public:
     friend ostream& operator<< (ostream & s, Lex l);
 };
 
-class Ident {
+class Ident{
     string name;
     bool declare;
     type_of_lex type;
     bool assign;
     int value;
-    string s;
 public:
     Ident(){ 
         declare = false; 
@@ -101,8 +105,6 @@ public:
     void put_assign() {assign = true;}
     int get_value() {return value;}
     void put_value(int v) {value = v;}
-    void put_string(string x) {s = x;}
-    string get_string() {return s;}
 };
 
 extern vector <Ident> TID;
