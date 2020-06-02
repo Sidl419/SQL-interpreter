@@ -13,7 +13,7 @@ void Poliz::operator=(Poliz& A){
     sizen = A.size();
     delete[] p;
     p = new Lex[sizen];
-    free = A.freedom();
+    free = A.get_free();
     for(int i = 0; i < sizen; i++){
         p[i] = A.p[i];
     }

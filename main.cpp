@@ -1,5 +1,6 @@
 #include "lex.h"
 #include "syntax.h"
+#include "execute.h"
 #include <iostream>
 #include <string>
 #include <vector>
@@ -10,9 +11,9 @@ using namespace std;
 
 int main(){
     try{
-        int y = 2;
-        //cout << "What part do you want to test? (1 - lexical, 2 - syntax, 3 - execute)" << endl;
-        //cin >> y;
+        int y = 3;
+        cout << "What part do you want to test? (1 - lexical, 2 - syntax, 3 - execute)" << endl;
+        cin >> y;
         if(y == 1){
             Scanner scan("mytest.txt");
             Lex H = scan.get_lex();
@@ -30,13 +31,11 @@ int main(){
             Par.poliz.print();
         }
 
-        /*
         else if(y == 3){
             Interpretator I("mytest.txt");
             I.interpretation();
         }
-        */
-            
+           
     	return 0;
     }
     catch(char c){

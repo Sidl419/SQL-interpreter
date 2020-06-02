@@ -21,7 +21,6 @@ public:
     ~Poliz() {delete []p;}
 
     int size() {return sizen;}
-    int freedom() {return free;}
     void put_lex(Lex l){ 
         p[free]=l;
         ++free; 

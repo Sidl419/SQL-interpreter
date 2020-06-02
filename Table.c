@@ -13,7 +13,7 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-#include "_Table.h"
+#include "Table.h"
 
 #ifndef SEEK_SET
 #define SEEK_SET 0
@@ -74,7 +74,7 @@ struct Table {
 };
 
 
-/* ‚®§¬®¦­ë¥ á®®¡é¥­¨ï ®¡ ®è¨¡ª å */
+/* ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ á®®ï¿½é¥­ï¿½ï¿½ ï¿½ï¿½ ï¿½è¨¡ï¿½ï¿½ï¿½ */
 char* ErrorText[]=
 		   { "Success.",
 		     "Can't create table.",

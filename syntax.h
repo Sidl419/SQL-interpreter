@@ -34,6 +34,7 @@ class Parser{
     void check_id();
     void check_op(); 
     void check_not(); 
+    void check_minus();
     void eq_type();
     void eq_bool(); 
     void check_id_in_read();

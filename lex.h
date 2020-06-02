@@ -50,14 +50,12 @@ enum type_of_lex{
     LEX_NEQ,        //34 !=
     LEX_GEQ,        //35 >=
     LEX_MOD,        //36 %
-    LEX_NUM,        //37 число
-    LEX_ID,         //38 идентификатор
-    LEX_LETTER,     //39 сообщение в кавычках
-    POLIZ_LABEL,    //40 метка
-    POLIZ_ADDRESS,  //41 адресс
-    POLIZ_GO,       //42 переход по метке
-    POLIZ_FGO,      //43 переход по лжи
-    POLIZ_SENTENCE, //44 конец SQL-предложения
+    LEX_ALLCOLS,    //37 * (в таблице)
+    LEX_UNMINUS,    //38 - (унарный)
+    LEX_NUM,        //39 число
+    LEX_ID,         //40 идентификатор
+    LEX_LETTER,     //41 сообщение в кавычках
+    POLIZ_SENTENCE, //42 конец SQL-предложения
 };
 
 class Lex{

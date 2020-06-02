@@ -31,8 +31,10 @@ void Parser::P(){
                 poliz.put_lex(POLIZ_SENTENCE);
                 break;
             case LEX_CREATE:
+                poliz.put_lex(curr_lex); 
                 gl();
                 CR();
+                poliz.put_lex(POLIZ_SENTENCE);
                 break;
             case LEX_DROP:
                 poliz.put_lex(curr_lex);  
@@ -51,10 +53,10 @@ void Parser::P(){
 
 void Parser::SE() {
     if(c_type == LEX_TIMES){
-        poliz.put_lex(curr_lex);  
+        poliz.put_lex(Lex(LEX_ALLCOLS, LEX_ALLCOLS, "*"));
         gl();
     }else{
-        if (c_type == LEX_ID){ //IDENT
+        if(c_type == LEX_ID){ //IDENT
             check_id();
             poliz.put_lex(curr_lex);
             gl();
@@ -95,6 +97,7 @@ void Parser::IN() {
     
     if(c_type == LEX_ID){ //IDENT
         check_id();
+        TID[c_val].put_assign();
         poliz.put_lex(curr_lex);  
         gl();
     }else{
@@ -108,7 +111,6 @@ void Parser::IN() {
         while (c_type == LEX_COMMA){ // ,
             gl();
             CV();
-            poliz.put_lex(curr_lex);  
             gl();
         }
         if(c_type != LEX_RPAREN){
@@ -148,7 +150,6 @@ void Parser::UP(){
 
     E();
     eq_type();
-    poliz.put_lex(LEX_EQ);
 
     WH();
 }
@@ -195,6 +196,7 @@ void Parser::CR(){
     if(c_type == LEX_ID){ //IDENT
         st_int.push(c_val);
         dec(LEX_TABLE);
+        poliz.put_lex(curr_lex);  
         gl();
     }else
         throw curr_lex;
@@ -218,17 +220,20 @@ void Parser::CR(){
 void Parser::DS(){
     if(c_type == LEX_ID){ //IDENT
         st_int.push(c_val);
+        poliz.put_lex(curr_lex);  
         gl();
     }else
         throw curr_lex;
 
     switch(c_type){
         case LEX_TEXT:
+            poliz.put_lex(curr_lex);  
             dec(c_type);
             gl();
             if(c_type == LEX_LPAREN){
                 gl();
                 if(c_type == LEX_NUM){
+                    poliz.put_lex(curr_lex);  
                     gl();
                     if(c_type != LEX_RPAREN)
                         throw curr_lex; 
@@ -239,6 +244,7 @@ void Parser::DS(){
             break;
 
         case LEX_LONG:
+            poliz.put_lex(curr_lex);  
             dec(c_type);
             break;
 
@@ -346,24 +352,6 @@ void Parser::E1(){
     }
 }
 
-/*
-void Parser::T1(){
-    switch(c_type){
-        case LEX_LETTER:
-            poliz.put_lex(curr_lex);  
-            break;
-        case LEX_ID:
-            check_id();
-            if(TID[c_val].get_type() != LEX_TEXT)
-                throw curr_lex;
-            poliz.put_lex(curr_lex);  
-            break;
-        default:
-            throw curr_lex;
-    }
-}
-*/
-
 void Parser::T(){
     F();
     gl();
@@ -381,7 +369,6 @@ void Parser::F(){
         case LEX_ID:
             check_id();
             poliz.put_lex(curr_lex);
-            //cout << TID[c_val].get_type();
         break;
 
         case LEX_NUM:
@@ -398,6 +385,12 @@ void Parser::F(){
             gl();
             F();
             check_not();
+        break;
+
+        case LEX_MINUS:
+            gl();
+            F();
+            check_minus();
         break;
 
         case LEX_LPAREN:
@@ -422,7 +415,7 @@ void Parser::dec(type_of_lex type){
     int i;
     while(!st_int.empty()){
         from_st(st_int, i);
-        if (TID[i].get_declare())
+        if(TID[i].get_declare())
             throw "ERROR: twice declaration";
         else{
             TID[i].put_declare();
@@ -485,6 +478,12 @@ void Parser::check_not(){
         poliz.put_lex(Lex(LEX_NOT));
 }
 
+void Parser::check_minus(){
+    if(st_lex.top() != LEX_LONG)
+        throw "unary minus requires number";
+    else
+        poliz.put_lex(Lex(LEX_UNMINUS));
+}
 
 void Parser::eq_type(){
     type_of_lex t; 
@@ -499,9 +498,4 @@ void Parser::eq_bool(){
     if(st_lex.top() != LEX_LOGIC)
         throw "ERROR: expression is not boolean";
     st_lex.pop();
-}
-
-void Parser::check_id_in_read(){ // mb change
-    if(!TID[c_val].get_declare())
-        throw "ERROR: not declared";
 }
